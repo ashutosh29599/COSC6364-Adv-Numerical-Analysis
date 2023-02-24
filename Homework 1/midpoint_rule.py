@@ -1,6 +1,7 @@
 import math
 import matplotlib.pyplot as plt
 
+
 def midpoint_rule(a, b, n):
     '''
     a is the lower end. b is the upper end. n is the number of partitions.

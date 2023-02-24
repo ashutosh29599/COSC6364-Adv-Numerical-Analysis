@@ -18,6 +18,22 @@ def simpsons_one_eighth_rule(a, b):
     return outer * inner
 
 
+def simpsons_rule(a, b, n):
+    if n % 2 != 0:
+        return "n must be even!"
+    
+    h = (b - a) / n
+
+    vals1 = [function_to_integrate(a + h*(2*i - 1)) for i in range(1, int(n/2 + 1))]
+    vals2 = [function_to_integrate(a + h*(2*i)) for i in range(1, int(n/2))]
+
+
+    inner = function_to_integrate(a) + function_to_integrate(b) + \
+            (4 * sum(vals1)) + (2 * sum(vals2))
+
+    return (1/3) * h * inner
+
+
 def function_to_integrate(x):
     # return 1 + x**2  # ans = 46
     # return 2**x # ans = 11.25
@@ -42,5 +58,11 @@ if __name__ == "__main__":
     # hw function ->
     Ta = 0.001
     Tb = 2.0
-    print(simpsons_one_third_rule(Ta, Tb))
-    print(simpsons_one_eighth_rule(Ta, Tb))
+    print(simpsons_rule(Ta, Tb, 2**2))
+    print(simpsons_rule(Ta, Tb, 2**4))
+    print(simpsons_rule(Ta, Tb, 2**6))
+    print(simpsons_rule(Ta, Tb, 2**8))
+    print(simpsons_rule(Ta, Tb, 2**10))
+
+    # print(simpsons_one_third_rule(Ta, Tb))
+    # print(simpsons_one_eighth_rule(Ta, Tb))
