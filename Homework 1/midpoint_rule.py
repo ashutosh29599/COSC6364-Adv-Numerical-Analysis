@@ -1,4 +1,5 @@
 import math
+import matplotlib.pyplot as plt
 
 def midpoint_rule(a, b, n):
     '''
@@ -39,4 +40,26 @@ if __name__ == "__main__":
     # hw function ->
     Ta = 0.001
     Tb = 2.0
-    print(midpoint_rule(Ta, Tb, 2**10))
+    # print(midpoint_rule(Ta, Tb, 2**10))
+
+    num_data_points = [2**2, 2**4, 2**6, 2**8, 2**10]
+    integral_output = []
+    
+    for i, data in enumerate(num_data_points):
+        integral_output.append(midpoint_rule(Ta, Tb, num_data_points[i]))
+
+    ground_truth = -0.4468465306
+    errors = [abs(val - ground_truth) for val in integral_output]
+
+    print(f"Integral values -> {integral_output}")
+    print(f"Errors -> {errors}")
+    for err in errors:
+        print(f"{err:.20f}", end=" ")
+
+    errors_log = [math.log(val) for val in errors]
+
+    plt.plot(num_data_points, errors_log)
+    plt.title("Integration by Midpoint Rule")
+    plt.xlabel("Number of data points")
+    plt.ylabel("Log scale of errors")
+    plt.show()
