@@ -93,8 +93,8 @@ if __name__ == "__main__":
     Tb = 2.0
 
     num_data_points = [2**2, 2**4, 2**6, 2**8, 2**10]
-    calculate_and_print_integral_results(trapezoidal_rule, "Trapezoidal Rule", num_data_points)
-    calculate_and_print_integral_results(midpoint_rule, "Midpoint Rule", num_data_points)
+    # calculate_and_print_integral_results(midpoint_rule, "Midpoint Rule", num_data_points)
+    # calculate_and_print_integral_results(trapezoidal_rule, "Trapezoidal Rule", num_data_points)
     calculate_and_print_integral_results(simpsons_rule, "Simpson's Rule", num_data_points)
 
     
