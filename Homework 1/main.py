@@ -1,6 +1,7 @@
 import math
-import matplotlib.pyplot as plt
 
+
+'''Integral Algorithms'''
 
 def midpoint_rule(a, b, n):
     '''
@@ -73,28 +74,61 @@ def calculate_and_print_integral_results(function_to_run, rule_name, num_data_po
     print(f"Integral values for {rule_name} -> {integral_output}")
     print(f"Errors for {rule_name} -> {errors}")
     print()
-    # for err in errors:
-    #     print(f"{err:.20f}", end=" ")
-    # print()
 
-    plt.figure(1)
-    plt.plot(num_data_points, errors_log, label=f"{rule_name}")
-    plt.legend()
-    plt.savefig(f"integral_errors.png")
+
+'''Differentiation Algorithms'''
+
+def central_difference(input_function, x, h):
+    return (input_function(x + h) - input_function(x - h)) / (2 * h)
+
+
+def forward_difference(input_function, x, h):
+    return (input_function(x + h) - input_function(x)) / h
+
+
+def input_function(x):
+    return 1.0 * math.exp(0.055 * x) * math.cos(2.0 * x)
+
+def calculate_differentiation(T_a, T_b, func_to_diff, rule_name):
+    current_input = T_a
+    input_points = []
+    diff_values = []
+    errors = []
+
+    while current_input <= T_b:
+        input_points.append(current_input)
+
+        current_output = func_to_diff(input_function, current_input, 0.001)
+        diff_values.append(current_output)
+        
+        ground_truth = calculate_ground_truth_for_differentiation(current_input)
+        errors.append(abs(ground_truth - current_output))
+
+        # the plots were created using step size 0.001
+        # current_input += 0.001
+        current_input += 0.1
+    
+    print(f"Differentiated values for {rule_name}: {diff_values}")
+    print(f"Errors for {rule_name}: {errors}")
+    print()
+
+
+def calculate_ground_truth_for_differentiation(value):
+    '''
+    Input: value (point at which you want the ground truth)
+    Output: ground truth at the point "value"
+    '''
+    return (0.055 * math.exp(0.055*value) * math.cos(2*value)) - (2 * math.exp(0.055*value) * math.sin(2*value))
 
 
 if __name__ == "__main__":
     Ta = 0.001
     Tb = 2.0
 
-    error_plot = plt.figure(1)
-    plt.title(f"Error in Integration Algorithms")
-    plt.xlabel("Number of data points")
-    plt.ylabel("Log scale of errors")
-
     num_data_points = [2**2, 2**4, 2**6, 2**8, 2**10]
     calculate_and_print_integral_results(midpoint_rule, "Midpoint Rule", num_data_points)
     calculate_and_print_integral_results(trapezoidal_rule, "Trapezoidal Rule", num_data_points)
     calculate_and_print_integral_results(simpsons_rule, "Simpson's Rule", num_data_points)
 
-    
+    calculate_differentiation(Ta, Tb, forward_difference, "Forward Difference")
+    calculate_differentiation(Ta, Tb, central_difference, "Central Difference")
