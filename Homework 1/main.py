@@ -89,7 +89,7 @@ def forward_difference(input_function, x, h):
 def input_function(x):
     return 1.0 * math.exp(0.055 * x) * math.cos(2.0 * x)
 
-def calculate_differentiation(T_a, T_b, func_to_diff, rule_name):
+def calculate_differentiation(T_a, T_b, func_to_diff, rule_name, h):
     current_input = T_a
     input_points = []
     diff_values = []
@@ -98,7 +98,7 @@ def calculate_differentiation(T_a, T_b, func_to_diff, rule_name):
     while current_input <= T_b:
         input_points.append(current_input)
 
-        current_output = func_to_diff(input_function, current_input, 0.001)
+        current_output = func_to_diff(input_function, current_input, h)
         diff_values.append(current_output)
         
         ground_truth = calculate_ground_truth_for_differentiation(current_input)
@@ -108,8 +108,8 @@ def calculate_differentiation(T_a, T_b, func_to_diff, rule_name):
         # current_input += 0.001
         current_input += 0.1
     
-    print(f"Differentiated values for {rule_name}: {diff_values}")
-    print(f"Errors for {rule_name}: {errors}")
+    print(f"Differentiated values for {rule_name} for h = {h}: {diff_values}")
+    print(f"Errors for {rule_name} for h = {h}: {errors}")
     print()
 
 
@@ -130,5 +130,7 @@ if __name__ == "__main__":
     calculate_and_print_integral_results(trapezoidal_rule, "Trapezoidal Rule", num_data_points)
     calculate_and_print_integral_results(simpsons_rule, "Simpson's Rule", num_data_points)
 
-    calculate_differentiation(Ta, Tb, forward_difference, "Forward Difference")
-    calculate_differentiation(Ta, Tb, central_difference, "Central Difference")
+    h = [0.0001, 0.001, 0.01, 0.1]
+    for val in h:
+        calculate_differentiation(Ta, Tb, forward_difference, "Forward Difference", val)
+        calculate_differentiation(Ta, Tb, central_difference, "Central Difference", val)
