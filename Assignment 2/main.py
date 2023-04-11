@@ -4,11 +4,12 @@ import numpy as np
 def fun(w):
     w1, w2 = w[0], w[1]
 
-    return w1**2 + w1*w2 + 2*w2**2
+    return (w1**2) + (w1 * w2) + (2 * w2**2)
 
 
 def gradient_of_fun_at(w):
     w1, w2 = w[0], w[1]
+    # print(f"w = {w}, w1 = {w1}, w2 = {w2}")
 
     return np.array([2*w1 + w2, w1 + 4*w2])
 
@@ -20,9 +21,10 @@ def gradient_descent(w_start, learning_rate, max_num_of_steps, tolerance):
     for i in range(max_num_of_steps):
         gradient = gradient_of_fun_at(w)
         w_next = w - (learning_rate * gradient)
-        
-        # if all(abs(w - w_next)) > tolerance:
-        if np.linalg.norm(w - w_next) < tolerance:
+        # print(f"i = {i}: w = {w}, w_next = {w_next}")
+
+        # if np.linalg.norm(w - w_next) < tolerance:
+        if ((w[0] - w_next[0]) < tolerance) and ((w[1] - w_next[1]) < tolerance):
             num_opt_steps = i + 1
             break
 
